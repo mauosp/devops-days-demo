@@ -45,12 +45,12 @@ jobs:
       run: |
         npm test
 
-    - name: Zip artifact for deployment
-      run: zip -r ${{ github.run_id }}.zip * -x 'node_modules/*'
-
     - name: Name Artifact Definition
       id: name_artifact
       run: echo "artifact_base_name=artifact-${{ github.run_id }}" >> $GITHUB_OUTPUT
+
+    - name: Zip artifact for deployment
+      run: zip -r ${{ steps.name_artifact.outputs.artifact_base_name }}.zip * -x 'node_modules/*'
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
