@@ -2,6 +2,10 @@ name: ra-functions-ci-workflow
 
 on: 
   workflow_call:
+    outputs:
+      artifact_base_name: 
+        value: ${{ jobs.name_artifact.outputs.artifact_base_name }}
+        description: The version generated in this build  
     inputs:
       node_version:
         type: string
@@ -43,6 +47,7 @@ jobs:
       run: zip -r ${{ github.run_id }}.zip * -x 'node_modules/*'
 
     - name: Name Artifact Definition
+      id: name_artifact
       run: echo "artifact_base_name=${{ github.run_id }}" >> $GITHUB_OUTPUT
       
     - name: Upload artifact for deployment job
