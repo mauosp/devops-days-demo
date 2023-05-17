@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       artifact_base_name: 
-        value: ${{ jobs.name_artifact.outputs.artifact_base_name }}
+        value: ${{ jobs.continuos_integration_job.outputs.artifact_base_name }}
         description: The version generated in this build  
     inputs:
       node_version:
@@ -14,9 +14,11 @@ on:
         default: '18.x'
 
 jobs:
-  continuos-integration-job:
+  continuos_integration_job:
     runs-on: ubuntu-latest
-
+    outputs:
+      artifact_base_name: ${{ steps.name_artifact.outputs.artifact_base_name }}
+      
     steps:
     - name: 'Checkout Source Code'
       uses: actions/checkout@v3
