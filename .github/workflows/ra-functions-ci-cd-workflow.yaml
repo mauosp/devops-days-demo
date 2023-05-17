@@ -30,6 +30,13 @@ jobs:
       node_version: 18.x
     secrets: inherit
 
+  continuos_deployment_job:
+    needs: continuos_integration_job
+    uses: ./.github/workflows/ra-functions-cd-workflow.yaml
+    with:
+      releaseVersion: ${{ needs.continuos_integration_job.outputs.artifact_base_name }}-ci
+    secrets: inherit
+
   test-job:
     runs-on: ubuntu-latest
     needs: continuos_integration_job

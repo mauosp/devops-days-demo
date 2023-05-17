@@ -5,7 +5,7 @@ on:
     inputs:
       environmentTarget:
         description: 'where to release (sandbox, staging or production)'
-        required: true
+        required: false
         type: string
         default: 'sandbox'
       releaseVersion:
@@ -33,8 +33,8 @@ jobs:
     - name: "Deploy stage"
       run: echo "Deploy started!"
     
-    - name: 'Run Azure Functions action'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ vars.appServiceName }}
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+    #- name: 'Run Azure Functions action'
+    #  uses: Azure/functions-action@v1
+    #  with:
+    #    app-name: ${{ vars.appServiceName }}
+    #    publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
