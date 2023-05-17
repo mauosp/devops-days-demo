@@ -7,10 +7,6 @@ concurrency:
 
 on: 
   workflow_dispatch:
-    outputs:
-      artifactName: 
-        value: ${{ jobs.ra_version.outputs.release }}
-        description: The version generated in this build
     inputs:
       logLevel:
         description: 'Log level'     
