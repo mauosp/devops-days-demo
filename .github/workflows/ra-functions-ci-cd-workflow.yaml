@@ -1,5 +1,5 @@
 
-name: ra-functions-ci-cd-workflow
+name: demo-serverless-ci-cd-workflow
 
 concurrency: 
   group: default 
