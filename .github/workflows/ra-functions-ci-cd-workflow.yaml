@@ -1,0 +1,30 @@
+
+name: ra-functions-ci-cd-workflow
+
+concurrency: 
+  group: default 
+  #cancel-in-progress: true #cancel any currently running job or workflow in the same concurrency group.
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        type: string
+        default: 'warning'
+  push:
+    branches:
+      - "feature/**"
+      - "main"
+      - "release/**"
+  pull_request:
+    types:
+      - "opened"
+      - "reopened"
+jobs:
+  continuos-integration-job:
+    uses: ./.github/workflows/ra-functions-ci-workflow.yaml
+    with:
+      node_version: 18.x
+    secrets: inherit
