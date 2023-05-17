@@ -7,6 +7,10 @@ concurrency:
 
 on: 
   workflow_dispatch:
+    outputs:
+      artifactName: 
+        value: ${{ jobs.ra_version.outputs.release }}
+        description: The version generated in this build
     inputs:
       logLevel:
         description: 'Log level'     
@@ -22,9 +26,19 @@ on:
     types:
       - "opened"
       - "reopened"
+
 jobs:
   continuos-integration-job:
     uses: ./.github/workflows/ra-functions-ci-workflow.yaml
     with:
       node_version: 18.x
     secrets: inherit
+
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'See Artifact Output'
+      shell: bash
+      run: |
+        echo "--------------- Artifact name ---------------"
+        echo ${{ continuos-integration-job.outputs.artifact_base_name }}

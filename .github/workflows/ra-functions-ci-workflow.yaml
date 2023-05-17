@@ -36,18 +36,19 @@ jobs:
     
     - name: 'npm test'
       shell: bash 
-      working-directory: ${{ inputs.working_directory }}
       run: |
-        echo 'npm run test:coverage'
+        npm test
 
     - name: Zip artifact for deployment
-      working-directory: ${{ inputs.working_directory }}
-      run: zip -r ${{ needs.ra_version.outputs.release }}.zip * -x 'node_modules/*'
+      run: zip -r ${{ github.run_id }}.zip * -x 'node_modules/*'
+
+    - name: Name Artifact Definition
+      run: echo "artifact_base_name=${{ github.run_id }}" >> $GITHUB_OUTPUT
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
-        name: ArtifactName
-        path: ${{ inputs.working_directory }}.zip
+        name: ${{ github.run_id }}-artifact
+        path: ${{ github.run_id }}.zip
         retention-days: 5
     
