@@ -1,4 +1,4 @@
-name: ra-functions-cd-workflow
+name: demo-serverless-cd-workflow
 
 on:
   workflow_call:

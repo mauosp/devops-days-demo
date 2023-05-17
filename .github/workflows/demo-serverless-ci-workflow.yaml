@@ -1,4 +1,4 @@
-name: ra-functions-ci-workflow
+name: demo-serverless-ci-workflow
 
 on: 
   workflow_call:

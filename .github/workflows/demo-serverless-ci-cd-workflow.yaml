@@ -1,4 +1,3 @@
-
 name: demo-serverless-ci-cd-workflow
 
 concurrency: 
@@ -25,14 +24,14 @@ on:
 
 jobs:
   continuos_integration_job:
-    uses: ./.github/workflows/ra-functions-ci-workflow.yaml
+    uses: ./.github/workflows/demo-serverless-ci-workflow.yaml
     with:
       node_version: 18.x
     secrets: inherit
 
   continuos_deployment_job:
     needs: continuos_integration_job
-    uses: ./.github/workflows/ra-functions-cd-workflow.yaml
+    uses: ./.github/workflows/demo-serverless-cd-workflow.yaml
     with:
       releaseVersion: ${{ needs.continuos_integration_job.outputs.artifact_base_name }}
     secrets: inherit
