@@ -50,12 +50,12 @@ jobs:
 
     - name: Name Artifact Definition
       id: name_artifact
-      run: echo "artifact_base_name=${{ github.run_id }}" >> $GITHUB_OUTPUT
+      run: echo "artifact_base_name=artifact-${{ github.run_id }}" >> $GITHUB_OUTPUT
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ github.run_id }}-artifact
-        path: ${{ github.run_id }}.zip
+        name: ${{ steps.name_artifact.outputs.artifact_base_name }}-ci
+        path: ${{ steps.name_artifact.outputs.artifact_base_name }}.zip
         retention-days: 5
     
