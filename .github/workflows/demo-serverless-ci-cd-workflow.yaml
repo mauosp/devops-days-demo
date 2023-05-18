@@ -35,13 +35,3 @@ jobs:
     with:
       releaseVersion: ${{ needs.continuos_integration_job.outputs.artifact_base_name }}
     secrets: inherit
-
-  test-job:
-    runs-on: ubuntu-latest
-    needs: continuos_integration_job
-    steps:
-    - name: 'See Artifact Output'
-      shell: bash
-      run: |
-        echo "--------------- Artifact name ---------------"
-        echo ${{ needs.continuos_integration_job.outputs.artifact_base_name }}
