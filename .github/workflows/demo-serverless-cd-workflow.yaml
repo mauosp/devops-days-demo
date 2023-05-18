@@ -1,0 +1,41 @@
+name: demo-serverless-cd-workflow
+
+on:
+  workflow_call:
+    inputs:
+      environmentTarget:
+        description: 'where to release (sandbox, staging or production)'
+        required: false
+        type: string
+        default: 'sandbox'
+      releaseVersion:
+        description: 'release version to be deployed'
+        required: true
+        type: string
+        default: 'release'
+
+jobs:
+  continuos-deployment-job:
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environmentTarget}}
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+       name: ${{inputs.releaseVersion}}-ci
+      
+    - name: unzip artifact for deployment
+      run: unzip ${{inputs.releaseVersion}}.zip -d workspace
+
+    - name: unzip output
+      run: ls -ls workspace
+
+    - name: "Deploy stage"
+      run: echo "Deploy started!"
+    
+    - name: 'Run Azure Functions action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: ${{ vars.AZF_NAME }}
+        package: ./workspace
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

@@ -1,0 +1,61 @@
+name: demo-serverless-ci-workflow
+
+on: 
+  workflow_call:
+    outputs:
+      artifact_base_name: 
+        value: ${{ jobs.continuos_integration_job.outputs.artifact_base_name }}
+        description: The version generated in this build  
+    inputs:
+      node_version:
+        type: string
+        description: 'Node version to use'     
+        required: true
+        default: '18.x'
+
+jobs:
+  continuos_integration_job:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_base_name: ${{ steps.name_artifact.outputs.artifact_base_name }}
+      
+    steps:
+    - name: 'Checkout Source Code'
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node ${{ inputs.node_version }} Environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node_version }}
+
+    - name: 'npm install'
+      shell: bash
+      run: |
+        npm install
+
+    - name: 'npm build'
+      shell: bash 
+      run: |
+        echo 'npm run build:prod'
+    
+    - name: 'npm test'
+      shell: bash 
+      run: |
+        npm test
+
+    - name: Name Artifact Definition
+      id: name_artifact
+      run: echo "artifact_base_name=artifact-${{ github.run_id }}" >> $GITHUB_OUTPUT
+
+    - name: Zip artifact for deployment
+      run: zip -r ${{ steps.name_artifact.outputs.artifact_base_name }}.zip * -x 'node_modules/*'
+      
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ steps.name_artifact.outputs.artifact_base_name }}-ci
+        path: ${{ steps.name_artifact.outputs.artifact_base_name }}.zip
+        retention-days: 5
+    
