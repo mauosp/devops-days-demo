@@ -17,7 +17,7 @@ on:
 jobs:
   continuos-deployment-job:
     runs-on: ubuntu-latest
-    environment: ${{inputs.environmentTarget}}
+    #environment: ${{inputs.environmentTarget}}
     steps:
     - name: Download artifact from build job
       uses: actions/download-artifact@v3
