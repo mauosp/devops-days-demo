@@ -4,9 +4,9 @@
 Baseline of a Azure Function with basic CI and CD workflow.
 
 ## Content:
-Dummy code for Azure Function
-CI Workflow
-CD Workflow
+- Dummy code for Azure Function
+- CI Workflow
+- CD Workflow
 
 ## General Summary
 ![General](docs/images/summary.png)
